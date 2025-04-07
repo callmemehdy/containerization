@@ -1,11 +1,13 @@
-FROM ubuntu:20.04
+FROM debian
 
-WORKDIR /MyApp 
+# WORKDIR /MyApp 
 
-COPY . .
+# COPY . .
 
-RUN apt update && apt install -y build-essential
+# RUN apt update && apt install -y build-essential
 
-# EXPOSE 1337
+# # EXPOSE 1337
 
-CMD ["make"]
+
+# CMD ./script.sh/
+
