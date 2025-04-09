@@ -1,13 +1,14 @@
 FROM debian
 
-# WORKDIR /MyApp 
+RUN apt update && apt install build-essential -y
 
-# COPY . .
+WORKDIR /MyApp 
 
-# RUN apt update && apt install -y build-essential
+COPY . .
+
 
 # # EXPOSE 1337
 
 
-# CMD ./script.sh/
+CMD ["make"]
 

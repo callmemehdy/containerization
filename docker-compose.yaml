@@ -1,0 +1,9 @@
+version: "3.8"
+
+
+services:
+  print:
+    build: ./srcs
+    container_name: breazing
+    # ports:
+    
