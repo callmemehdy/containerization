@@ -5,5 +5,3 @@ services:
   print:
     build: ./srcs
     container_name: breazing
-    # ports:
-    
