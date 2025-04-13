@@ -12,3 +12,28 @@ to see the docker image layers use docker history [img name] or use docker inspe
 the CMD instruction can be overriden using docker run parameters unlike the ENTRYPOINT instruction
 
  docker login --username=meehd
+
+ The -d flag stands for "driver".
+
+So when you do:
+
+docker network create -d bridge my-network
+You're saying:
+		"Hey Docker, create a new network using the bridge driver."
+when we dont specify -d flag automatically the bridge driver get in
+
+types of docker network drivers: 
+								bridge
+								host
+								overlay
+								IPvLAN
+								macvlan
+
+ docker network connect demo-network container2
+ docker network disconnect demo-network container2
+
+ docker compose specs: 
+
+networks:
+  db:
+    driver: bridge
