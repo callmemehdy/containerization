@@ -6,3 +6,7 @@ CMD ls | cat vs cmd ["sllsl"]
 
 
 to remove the container after you stop it : we use -rm after  naming it ...
+
+to see the docker image layers use docker history [img name] or use docker inspect to see img metadata.....
+
+the CMD instruction can be overriden using docker run parameters unlike the ENTRYPOINT instruction
