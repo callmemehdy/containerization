@@ -37,3 +37,49 @@ types of docker network drivers:
 networks:
   db:
     driver: bridge
+
+i should read some article about docker-machine
+
+docker system info | grep Storage
+
+
+
+
+// see the nginx layers
+
+<!-- We have an image (nginx) to play with, so next, let's checkout it's layers. We can inspect image layers by either running docker inspect on the image and checking the GraphDriver fields or by going through /var/lib/docker/overlay2 directory where all image layers are stored. So, let's do both and see what's inside: -->
+
+<!-- ~ $ cd /var/lib/docker/overlay2
+~ $ ls -l
+total 0
+drwx------. 4 root root     55 Feb  6 19:19 3d963d191b2101b3406348217f4257d7374aa4b4a73b4a6dd4ab0f365d38dfbd
+drwx------. 3 root root     47 Feb  6 19:19 410c05aaa30dd006fc47d8c23ba0d173c6d305e4d93fdc3d9abcad9e78862b46
+drwx------. 4 root root     72 Feb  6 19:19 685374e39a6aac7a346963bb51e2fc7b9f5e2bdbb5eac6c76ccdaef807abc25e
+brw-------. 1 root root 253, 0 Jan 31 18:15 backingFsBlockDev
+drwx------. 4 root root     72 Feb  6 19:19 d487622ece100972afba76fda13f56029dec5ec26ffcf552191f6241e05cab7e
+drwx------. 4 root root     72 Feb  6 19:19 fb18be50518ec9b37faf229f254bbb454f7663f1c9c45af9f272829172015505
+drwx------. 2 root root    176 Feb  6 19:19 l
+
+~ $ tree 3d963d191b2101b3406348217f4257d7374aa4b4a73b4a6dd4ab0f365d38dfbd/
+3d963d191b2101b3406348217f4257d7374aa4b4a73b4a6dd4ab0f365d38dfbd/
+├── diff
+│   └── docker-entrypoint.d
+│       └── 20-envsubst-on-templates.sh
+├── link
+├── lower
+└── work -->
+
+<!-- ~ $ docker inspect nginx | jq .[0].GraphDriver.Data
+{
+  "LowerDir": "/var/lib/docker/overlay2/fb18be50518ec9b37faf229f254bbb454f7663f1c9c45af9f272829172015505/diff:
+    /var/lib/docker/overlay2/d487622ece100972afba76fda13f56029dec5ec26ffcf552191f6241e05cab7e/diff:
+    /var/lib/docker/overlay2/685374e39a6aac7a346963bb51e2fc7b9f5e2bdbb5eac6c76ccdaef807abc25e/diff:
+    /var/lib/docker/overlay2/410c05aaa30dd006fc47d8c23ba0d173c6d305e4d93fdc3d9abcad9e78862b46/diff",
+  "MergedDir": "/var/lib/docker/overlay2/3d963d191b2101b3406348217f4257d7374aa4b4a73b4a6dd4ab0f365d38dfbd/merged",
+  "UpperDir": "/var/lib/docker/overlay2/3d963d191b2101b3406348217f4257d7374aa4b4a73b4a6dd4ab0f365d38dfbd/diff",
+  "WorkDir": "/var/lib/docker/overlay2/3d963d191b2101b3406348217f4257d7374aa4b4a73b4a6dd4ab0f365d38dfbd/work"
+} -->
+
+docker inspect nginx | jq ".[0].GraphDriver.Data"
+
+jq is a json file parser(json processor)             
