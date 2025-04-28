@@ -10,8 +10,11 @@ RUN	mkdir	-p /etc/nginx/tls/ && openssl req -x509 -nodes -days 42 -newkey rsa:20
 
 # take a look on how daemons work inside a container
 
-COPY ./def.conf .
+RUN mkdir -p /var/www/wordpress
 
-RUN cp /def.conf /etc/nginx/sites-available/default
+RUN chown -R www-data:www-data /var/www/wordpress
+
+COPY ./def.conf /etc/nginx/nginx.conf
+
 
 CMD ["nginx", "-g", "daemon off;"]
