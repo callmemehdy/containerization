@@ -15,6 +15,7 @@ volumes:
       type: none
 
 
+
 services:
   nginx:
     image: nginx:inception
@@ -60,5 +61,6 @@ services:
 
 networks:
   inception:
+    driver: bridge
     name: inception
 

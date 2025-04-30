@@ -15,7 +15,7 @@ RUN mkdir -p /var/www/wordpress
 RUN chown -R www-data:www-data /var/www
 
 
-COPY ./def.conf /etc/nginx/nginx.conf
+COPY ./conf/def.conf /etc/nginx/nginx.conf
 
 
 CMD ["nginx", "-g", "daemon off;"]
