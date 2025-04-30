@@ -12,7 +12,8 @@ RUN	mkdir	-p /etc/nginx/tls/ && openssl req -x509 -nodes -days 42 -newkey rsa:20
 
 RUN mkdir -p /var/www/wordpress
 
-RUN chown -R www-data:www-data /var/www/wordpress
+RUN chown -R www-data:www-data /var/www
+
 
 COPY ./def.conf /etc/nginx/nginx.conf
 

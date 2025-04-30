@@ -9,7 +9,7 @@ chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
 
 # in case there multiuser group of www-data group
-chown -R www-data:www-data  /var/www/wordpress
+chown -R www-data:www-data  /var/www
 
 chmod -R 755 /var/www/wordpress
 
