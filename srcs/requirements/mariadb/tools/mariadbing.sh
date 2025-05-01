@@ -2,8 +2,7 @@
 
 
 service mariadb start
-
-sleep 3
+ 
 
 mariadb -e "create database if not exists $MARIADB_DB ;"
 mariadb -e "create user if not exists $MARIADB_USER@'%' identified by '$MARIADB_PASSWORD';"
