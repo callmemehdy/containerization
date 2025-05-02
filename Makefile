@@ -23,4 +23,6 @@ exec:
 	@:
 
 prune:
-	docker  system prune -af
+	@docker  system prune -af
+
+.PHONY: up down exec show

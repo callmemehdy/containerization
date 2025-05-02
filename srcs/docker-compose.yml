@@ -64,3 +64,4 @@ networks:
     driver: bridge
     name: inception
 
+# should add health check for wp to check if mariadb is ready
