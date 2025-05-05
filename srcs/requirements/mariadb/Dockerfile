@@ -7,5 +7,5 @@ RUN apt update && apt upgrade -y && apt install -y systemd && \
 
 RUN chmod +x mariadbing.sh
 
-CMD ["./mariadbing.sh"]
+ENTRYPOINT ["./mariadbing.sh"]
 

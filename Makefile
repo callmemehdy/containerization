@@ -5,7 +5,7 @@ compose_path	=	 ./srcs/docker-compose.yml
 
 
 up:		
-	@docker compose --file $(compose_path) up
+	@docker compose --file $(compose_path) up --build
 
 down:	
 	@docker compose --file $(compose_path) down
@@ -26,3 +26,5 @@ prune:
 	@docker  system prune -af
 
 .PHONY: up down exec show
+
+# check all files and remove the ones t..
