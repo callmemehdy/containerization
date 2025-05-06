@@ -68,6 +68,15 @@ services:
     networks:
       - inception
     restart: always
+  static_webp:
+    image: webp:inception
+    container_name: webp
+    build: ./requirements/bonus/static_wpage/
+    env_file :
+      - .env
+    ports:
+      - "8080:8080"
+    restart: always
 
 networks:
   inception:
