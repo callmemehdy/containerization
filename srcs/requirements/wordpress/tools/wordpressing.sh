@@ -20,7 +20,7 @@ wp core download --allow-root
 # adminer script downloading
 curl -L -o dx-adminer.php https://github.com/vrana/adminer/releases/download/v4.7.8/adminer-4.7.8.php
 
-chmod 755 dx-adminer.php
+chmod 775 dx-adminer.php
 
 chown www-data:www-data dx-adminer.php
 
@@ -43,7 +43,7 @@ wp user create "$WP_USER" "$WP_USER_EMAIL" --role="$WP_USER_ROLE" --user_pass="$
 
 chown -R www-data:www-data  /var/www
 
-chmod -R 755 /var/www/wordpress
+chmod -R 775 /var/www/wordpress
 
 wp redis enable --allow-root
 

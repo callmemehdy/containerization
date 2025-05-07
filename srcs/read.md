@@ -86,3 +86,8 @@ jq is a json file parser(json processor)
 
 
 should the http rfc for a while
+
+
+hen a user logs in, vsftpd changes the root of their session to the directory specified by secure_chroot_dir (e.g., /var/run/vsftpd/empty).
+The user’s view of the file system is restricted to this directory and its subdirectories. They cannot navigate "up" to parent directories or access other parts of the server’s file system.
+For example, if secure_chroot_dir=/var/run/vsftpd/empty, the user is locked into that directory and sees it as their root (/).

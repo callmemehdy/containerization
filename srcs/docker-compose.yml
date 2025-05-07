@@ -77,6 +77,19 @@ services:
     ports:
       - "8080:8080"
     restart: always
+  ftp_server:
+    image: ft_server:inception
+    container_name: ftp_server
+    build: ./requirements/bonus/ftp_server/
+    env_file:
+      - .env
+    volumes:
+      - /home/mel-akar/data/wordpress:/var/www/wordpress
+    ports:
+      - "50000-50120:50000-50120"
+      - "20:20"
+      - "21:21"
+    restart: always
 
 networks:
   inception:
