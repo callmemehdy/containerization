@@ -1,6 +1,7 @@
 #!/bin/bash
 
 
+
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
 # apt install -y sendmail
@@ -9,8 +10,12 @@ chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
 
 # in case there multiuser group of www-data group
-
 cd /var/www/wordpress
+
+if [ -f wp-config.php ] ; then
+	echo "Wordpress is already installed brother!";
+	exit 0;
+fi
 
 sleep 3
 
