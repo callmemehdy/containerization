@@ -36,20 +36,19 @@ chown -R www-data:www-data  /var/www
 chmod -R 775 /var/www/wordpress
 
 #############
-sleep 5
+# sleep 30
 
-wp core  config	--dbhost=mariadb:3306 --dbname=$MARIADB_DB --dbuser=$MARIADB_USER \
-				--dbpass=$MARIADB_PASSWORD --allow-root
+wp config create --dbhost="mariadb:3306" --dbname="$MARIADB_DB" --dbuser="$MARIADB_USER" --dbpass="$MARIADB_PASSWORD" --allow-root
 
 wp config set WP_REDIS_HOST 'redis' --add --allow-root
 
 wp config set WP_REDIS_PORT $REDIS_PORT --add --allow-root
 
 
-wp core install --url=$DOMAIN_NAME --title=$WEBSITE_TITLE --admin_user=$ADMIN_USER \
-				--admin_password=$ADMIN_PASS --admin_email=$ADMIN_EMAIL --allow-root
+wp core install --url="$DOMAIN_NAME" --title="$WEBSITE_TITLE" --admin_user="$ADMIN_USER" \
+				--admin_password="$ADMIN_PASS" --admin_email="$ADMIN_EMAIL" --allow-root
 
-wp user create $WP_USER $WP_USER_EMAIL --role=$WP_USER_ROLE --user_pass=$WP_USER_PASS --allow-root
+wp user create "$WP_USER" "$WP_USER_EMAIL" --role="$WP_USER_ROLE" --user_pass="$WP_USER_PASS" --allow-root
 
 
 

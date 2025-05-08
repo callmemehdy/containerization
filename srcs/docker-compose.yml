@@ -26,13 +26,19 @@ services:
       - /home/mel-akar/data/mariadb:/var/lib/mysql 
     networks:
       - inception
+    healthcheck:
+      test: ["CMD", "nc", "-zv", "mariadb", "3306"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
   wordpress:
     image: wordpress:inception
     container_name: wordpress
     build: ./requirements/wordpress/
     depends_on:
-      - mariadb
-      - redis
+      # - redis
+      mariadb:
+        condition: service_healthy
     env_file :
       - .env
     volumes:
