@@ -6,7 +6,7 @@
 
 compose_path	=	 ./srcs/docker-compose.yml
 
-up:		
+up:	volume_dir
 	@docker compose --file $(compose_path) up --build
 
 down:	

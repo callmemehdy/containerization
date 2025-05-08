@@ -118,3 +118,6 @@ So the secure_chroot_dir acts as an initial chroot environment during the startu
 I should also mention that the secure_chroot_dir is empty, so even if an attacker writes files there, it doesn't affect the system. Plus, the directory's permissions (root-owned, not writable) prevent the attacker from modifying it.
 
 Now, putting this into a step-by-step example to illustrate the attack scenario with and without secure_chroot_dir would make it clearer. Maybe using a hypothetical vulnerability in the configuration parsing phase of vsftpd. If the attacker can trigger a buffer overflow or command injection during startup, the presence of secure_chroot_dir would limit the damage.
+
+
+docker inspect --format='{{json .State.Health}}' <container_name>

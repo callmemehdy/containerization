@@ -12,12 +12,12 @@ chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 # in case there multiuser group of www-data group
 cd /var/www/wordpress
 
-if [ -f wp-config.php ] ; then
-	echo "Wordpress is already installed brother!";
-	exit 0;
-fi
+# if [ -f wp-config.php ] ; then
+# 	echo "Wordpress is already installed brother!";
+	
+# fi
 
-sleep 3
+# sleep 3
 
 wp core download --allow-root
 
