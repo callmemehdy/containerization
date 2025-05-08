@@ -7,5 +7,6 @@ RUN apt update && apt upgrade -y && apt install -y systemd && \
 
 RUN chmod +x mariadbing.sh
 
+# ENTRYPOINT ["tail", "-f"]
 ENTRYPOINT ["./mariadbing.sh"]
 

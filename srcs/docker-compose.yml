@@ -26,20 +26,13 @@ services:
       - /home/mel-akar/data/mariadb:/var/lib/mysql 
     networks:
       - inception
-    healthcheck:
-        test: ["CMD", "mariadb-admin", "ping"]
-        # interval: 30s by default is 30
-        timeout: 10s
-        retries: 5
   wordpress:
     image: wordpress:inception
     container_name: wordpress
     build: ./requirements/wordpress/
     depends_on:
-        mariadb:
-          condition: service_healthy
-        redis:
-          condition: service_healthy
+      - mariadb
+      - redis
     env_file :
       - .env
     volumes:
@@ -56,10 +49,6 @@ services:
     networks:
       - inception
     restart: always
-    healthcheck:
-        test: ["CMD", "redis-cli", "-h", "localhost", "-p", "1234", "ping"]
-        timeout: 10s
-        retries: 5
   static_webp:
     image: webp:inception
     container_name: webp
@@ -82,15 +71,15 @@ services:
       - "21:21"
       - "50000-50120:50000-50120"
     restart: always
-  irc_server:
-    image: irc_server:inception
-    container_name: irc_server
-    build: ./requirements/bonus/extra_service/
-    ports:
-      - "1337:1337"
-    env_file:
-      - .env
-    restart: always
+  # irc_server:
+  #   image: irc_server:inception
+  #   container_name: irc_server
+  #   build: ./requirements/bonus/extra_service/
+  #   ports:
+  #     - "1337:1337"
+  #   env_file:
+  #     - .env
+  #   restart: always
 
 networks:
   inception:
