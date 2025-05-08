@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# mkdir -p /run/mysqld
-# chown mysql:mysql /run/mysqld
 service mariadb start #-uroot -p$MARIADB_PASSWORD_ROOT
 
 sleep 5
