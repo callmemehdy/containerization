@@ -1,4 +1,20 @@
 
+volumes:
+  mariadb:
+    name: mariadb
+    driver: local
+    driver_opts:
+      device: /home/mel-akar/data/mariadb
+      o: bind
+      type: none
+  wordpress:
+    name: wordpress
+    driver: local
+    driver_opts:
+      device: /home/mel-akar/data/wordpress
+      o: bind
+      type: none
+
 services:
   nginx:
     image: nginx:inception
@@ -11,38 +27,41 @@ services:
     depends_on:
       - wordpress
     volumes:
-      - /home/mel-akar/data/wordpress:/var/www/wordpress
-    restart: always
+      - wordpress:/var/www/wordpress
     networks:
       - inception
+    restart: always
   mariadb:
     image: mariadb:inception
     container_name: mariadb
     build: ./requirements/mariadb/
     env_file:
       - .env
-    restart: always
+    ports:
+      - "3306:3306"
     volumes:
-      - /home/mel-akar/data/mariadb:/var/lib/mysql 
+      - mariadb:/var/lib/mysql
     networks:
       - inception
+    restart: always
     healthcheck:
       test: ["CMD", "nc", "-zv", "mariadb", "3306"]
       interval: 2s
       timeout: 5s
-      retries: 20
+      retries: 15
   wordpress:
     image: wordpress:inception
     container_name: wordpress
     build: ./requirements/wordpress/
     depends_on:
-      # - redis
       mariadb:
         condition: service_healthy
+      # redis:
+      #   condition: service_healthy
     env_file :
       - .env
     volumes:
-      - /home/mel-akar/data/wordpress:/var/www/wordpress
+      - wordpress:/var/www/wordpress
     networks:
       - inception
     restart: always
@@ -55,6 +74,11 @@ services:
     networks:
       - inception
     restart: always
+    # healthcheck:
+    #   test: ["CMD", "nc", "-zv", "redis", "1234"]
+    #   interval: 2s
+    #   timeout: 5s
+    #   retries: 15
   static_webp:
     image: webp:inception
     container_name: webp
@@ -64,19 +88,19 @@ services:
     ports:
       - "8080:8080"
     restart: always
-  ftp_server:
-    image: ftp_server:inception
-    container_name: ftp_server
-    build: ./requirements/bonus/ftp_server/
-    env_file:
-      - .env
-    volumes:
-      - /home/mel-akar/data/wordpress:/var/www/wordpress
-    ports:
-      - "20:20"
-      - "21:21"
-      - "50000-50120:50000-50120"
-    restart: always
+  # ftp_server:
+  #   image: ftp_server:inception
+  #   container_name: ftp_server
+  #   build: ./requirements/bonus/ftp_server/
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - wordpress:/var/www/wordpress
+  #   ports:
+  #     - "20:20"
+  #     - "21:21"
+  #     - "50000-50120:50000-50120"
+  #   restart: always
   # irc_server:
   #   image: irc_server:inception
   #   container_name: irc_server
@@ -92,4 +116,4 @@ networks:
     driver: bridge
     name: inception
 
-# should add health check for wp to check if mariadb is ready & redis
+# should add health check for wp to check if mariadb is ready & redis & read about this mounts freaking mounts fk

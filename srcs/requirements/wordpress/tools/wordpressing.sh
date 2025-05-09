@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# while ! mysqladmin ping -h"mariadb" -u"${MARIADB_USER}" -p"${MARIADB_PASSWORD}" --silent; do
+# while ! mysqladmin ping -h"mariadb" -u"$MARIADB_USER" -p"$MARIADB_PASSWORD" --silent; do
 #     sleep 1
 # done
 
@@ -21,9 +21,6 @@ cd /var/www/wordpress
 # fi
 
 
-wp core download --allow-root
-
-
 # adminer script downloading
 curl -L -o dx-adminer.php https://github.com/vrana/adminer/releases/download/v4.7.8/adminer-4.7.8.php
 
@@ -31,16 +28,19 @@ chmod 775 dx-adminer.php
 
 chown www-data:www-data dx-adminer.php
 
+
 chown -R www-data:www-data  /var/www
 
 chmod -R 775 /var/www/wordpress
 
 #############
-# sleep 30
+sleep 10
 
-wp config create --dbhost="mariadb:3306" --dbname="$MARIADB_DB" --dbuser="$MARIADB_USER" --dbpass="$MARIADB_PASSWORD" --allow-root
+wp core download --allow-root
 
-wp config set WP_REDIS_HOST 'redis' --add --allow-root
+wp config create --dbhost=mariadb:3306 --dbname="$MARIADB_DB" --dbuser="$MARIADB_USER" --dbpass="$MARIADB_PASSWORD" --allow-root
+
+wp config set WP_REDIS_HOST $REDIS_HOST --add --allow-root
 
 wp config set WP_REDIS_PORT $REDIS_PORT --add --allow-root
 
@@ -50,6 +50,9 @@ wp core install --url="$DOMAIN_NAME" --title="$WEBSITE_TITLE" --admin_user="$ADM
 
 wp user create "$WP_USER" "$WP_USER_EMAIL" --role="$WP_USER_ROLE" --user_pass="$WP_USER_PASS" --allow-root
 
+chown -R www-data:www-data  /var/www
+
+chmod -R 775 /var/www/wordpress
 
 
 wp redis enable --allow-root

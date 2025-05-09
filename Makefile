@@ -10,7 +10,7 @@ up:	volume_dir
 	@docker compose --file $(compose_path) up --build
 
 down:	
-	@docker compose --file $(compose_path) down
+	@docker compose --file $(compose_path) down -v
 
 show:	
 	@docker compose --file $(compose_path) ps -a
