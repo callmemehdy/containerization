@@ -37,8 +37,6 @@ services:
     build: ./requirements/mariadb/
     env_file:
       - .env
-    ports:
-      - "3306:3306"
     volumes:
       - mariadb:/var/lib/mysql
     networks:
@@ -110,7 +108,7 @@ services:
       - wordpress:/var/www/wordpress
     ports:
       - "20-21:20-21"
-      - "50000-50120:50000-50120"
+      - "50120-50130:50120-50130"
     restart: always
   irc_server:
     image: irc_server:inception
