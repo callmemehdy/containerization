@@ -27,7 +27,7 @@ services:
     depends_on:
       - wordpress
     volumes:
-      - /home/mel-akar/data/wordpress:/var/www/wordpress
+      - wordpress:/var/www/wordpress
     networks:
       - inception
     restart: always
@@ -45,7 +45,7 @@ services:
       - inception
     restart: always
     healthcheck:
-      test: ["CMD", "nc", "-zv", "mariadb", "3306"]
+      test: ["CMD", "nc", "-z", "mariadb", "3306"]
       interval: 2s
       timeout: 5s
       retries: 15
@@ -56,8 +56,8 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
-      # redis:
-      #   condition: service_healthy
+      redis:
+        condition: service_healthy
     env_file :
       - .env
     volumes:
@@ -74,11 +74,11 @@ services:
     networks:
       - inception
     restart: always
-    # healthcheck:
-    #   test: ["CMD", "nc", "-zv", "redis", "1234"]
-    #   interval: 2s
-    #   timeout: 5s
-    #   retries: 15
+    healthcheck:
+      test: ["CMD", "nc", "-z", "redis", "1234"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
   static_webp:
     image: webp:inception
     container_name: webp
@@ -97,37 +97,37 @@ services:
     ports:
       - "9090:9090"
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     restart: always
-  # ftp_server:
-  #   image: ftp_server:inception
-  #   container_name: ftp_server
-  #   build: ./requirements/bonus/ftp_server/
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - wordpress:/var/www/wordpress
-  #   ports:
-  #     - "20:20"
-  #     - "21:21"
-  #     - "50000-50120:50000-50120"
-  #   restart: always
-  # irc_server:
-  #   image: irc_server:inception
-  #   container_name: irc_server
-  #   build: ./requirements/bonus/extra_service/
-  #   ports:
-  #     - "1337:1337"
-  #   env_file:
-  #     - .env
-  #   restart: always
+  ftp_server:
+    image: ftp_server:inception
+    container_name: ftp_server
+    build: ./requirements/bonus/ftp_server/
+    env_file:
+      - .env
+    volumes:
+      - wordpress:/var/www/wordpress
+    ports:
+      - "20-21:20-21"
+      - "50000-50120:50000-50120"
+    restart: always
+  irc_server:
+    image: irc_server:inception
+    container_name: irc_server
+    build: ./requirements/bonus/extra_service/
+    ports:
+      - "1337:1337"
+    env_file:
+      - .env
+    restart: always
 
 networks:
   inception:
     driver: bridge
     name: inception
 
-# should add health check for wp to check if mariadb is ready & redis & read about this mounts freaking mounts fk
+# should add health check for wp to check if mariadb is ready & redis
 
 # ▶ cat opts.json 
 

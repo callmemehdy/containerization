@@ -24,7 +24,7 @@ bonus:	$(BNAME)
 
 run:	all
 	@if [ -f $(NAME) ]; \
-		then /bin/bash -c './$(NAME) "$$@"' __ "1337" "pass"; > /dev/null\
+		then /bin/bash -c './$(NAME) "$$@"' __ "1337" "pass"  > /dev/null;\
 	fi
 
 run_bonus:	bonus
