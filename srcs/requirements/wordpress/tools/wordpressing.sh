@@ -21,14 +21,6 @@ cd /var/www/wordpress
 # fi
 
 
-# adminer script downloading
-curl -L -o dx-adminer.php https://github.com/vrana/adminer/releases/download/v4.7.8/adminer-4.7.8.php
-
-chmod 775 dx-adminer.php
-
-chown www-data:www-data dx-adminer.php
-
-
 chown -R www-data:www-data  /var/www
 
 chmod -R 775 /var/www/wordpress

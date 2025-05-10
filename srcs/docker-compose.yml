@@ -27,7 +27,7 @@ services:
     depends_on:
       - wordpress
     volumes:
-      - wordpress:/var/www/wordpress
+      - /home/mel-akar/data/wordpress:/var/www/wordpress
     networks:
       - inception
     restart: always
@@ -88,6 +88,17 @@ services:
     ports:
       - "8080:8080"
     restart: always
+  adminer:
+    image: adminer:inception
+    container_name: adminer
+    build: ./requirements/bonus/adminer/
+    env_file :
+      - .env
+    ports:
+      - "9090:9090"
+    depends_on:
+      - mariadb
+    restart: always
   # ftp_server:
   #   image: ftp_server:inception
   #   container_name: ftp_server
@@ -117,3 +128,9 @@ networks:
     name: inception
 
 # should add health check for wp to check if mariadb is ready & redis & read about this mounts freaking mounts fk
+
+# ▶ cat opts.json 
+
+# {"MountType":"none","MountOpts":"bind","MountDevice":"/home/mel-akar/data/mariadb","Quota":{"Size":0}}# 
+
+# {"MountType":"none","MountOpts":"bind","MountDevice":"/home/mel-akar/data/mariadb","Quota":{"Size":0}}#    
