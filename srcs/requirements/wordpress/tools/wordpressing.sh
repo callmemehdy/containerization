@@ -36,7 +36,6 @@ wp config set WP_REDIS_HOST $REDIS_HOST --add --allow-root
 
 wp config set WP_REDIS_PORT $REDIS_PORT --add --allow-root
 
-wp plugin install redis-cache --activate --allow-root
 
 # install the plugin
 
@@ -45,12 +44,17 @@ wp core install --url="$DOMAIN_NAME" --title="$WEBSITE_TITLE" --admin_user="$ADM
 
 wp user create "$WP_USER" "$WP_USER_EMAIL" --role="$WP_USER_ROLE" --user_pass="$WP_USER_PASS" --allow-root
 
+wp plugin install redis-cache --activate --allow-root
+
+
+# install redis
 chown -R www-data:www-data  /var/www
+wp redis enable --allow-root
+
+
 
 chmod -R 775 /var/www/wordpress
 
-
-wp redis enable --allow-root
 
 wp db check --allow-root
 
