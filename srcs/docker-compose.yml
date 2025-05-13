@@ -98,6 +98,8 @@ services:
       mariadb:
         condition: service_healthy
     restart: always
+    networks:
+      - inception
   ftp_server:
     image: ftp_server:inception
     container_name: ftp_server
