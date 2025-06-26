@@ -26,7 +26,7 @@ cd inception
 ### 1. Set up your .env file
 
 ```bash
- you should raverse my repo and find all vars hehe
+ you should traverse my whole repo and find all vars hehe
 ```
 
 
