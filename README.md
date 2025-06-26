@@ -23,7 +23,11 @@ Developed as part of the [1337/42 Network Curriculum](https://1337.ma/), the goa
 git clone https://github.com/yourusername/inception.git
 cd inception
 ```
-### 1. Set up your .env file: you should raverse my repo and find all vars hehe
+### 1. Set up your .env file
+
+```bash
+ you should raverse my repo and find all vars hehe
+```
 
 
 ### 1. Build and run the containers
