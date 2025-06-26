@@ -20,8 +20,8 @@ Developed as part of the [1337/42 Network Curriculum](https://1337.ma/), the goa
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/inception.git
-cd inception
+git clone https://github.com/callmemehdy/Inception.git
+cd Inception
 ```
 ### 1. Set up your .env file
 
