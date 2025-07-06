@@ -1,6 +1,6 @@
 # 🧠 Inception
 
-A secure, containerized web server infrastructure built using **Docker** from scratch. This project sets up a complete **WordPress + MariaDB** stack with **Nginx**, running inside isolated Docker containers, orchestrated using `docker-compose`.
+A secure, containerized web server infrastructure built using **Docker** from scratch. This project sets up a complete **WordPress + MariaDB** stack with **Nginx** and **(Redis, Ftp-server, Adminer)**, running inside isolated Docker containers, orchestrated using `docker-compose`.
 
 Developed as part of the [1337/42 Network Curriculum](https://1337.ma/), the goal is to understand system administration, containerization, and secure service configuration.
 
