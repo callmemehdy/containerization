@@ -1,4 +1,4 @@
-# Inception
+# Containerization
 
 A comprehensive containerized infrastructure project that deploys a complete web application stack using Docker. This project implements WordPress with MariaDB backend, Nginx reverse proxy, Redis caching, and additional services including FTP server, database management interface, IRC server, and an AI assistant powered by Google Gemini.
 
@@ -173,8 +173,8 @@ brew install docker docker-compose make git
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/callmemehdy/Inception.git
-cd Inception
+git clone https://github.com/callmemehdy/Containerization.git
+cd Containerization
 ```
 
 ### 2. Configure Environment Variables
