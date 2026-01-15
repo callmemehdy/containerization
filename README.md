@@ -173,8 +173,8 @@ brew install docker docker-compose make git
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/callmemehdy/Containerization.git
-cd Containerization
+git clone https://github.com/callmemehdy/containerization.git
+cd containerization
 ```
 
 ### 2. Configure Environment Variables
