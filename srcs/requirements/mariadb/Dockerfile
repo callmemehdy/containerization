@@ -1,12 +1,10 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
-COPY ./tools/mariadbing.sh .
+COPY ./tools/mariadbing.sh /usr/local/bin/
 
-RUN apt update && apt upgrade -y  && \
-	apt install -y mariadb-server mariadb-client netcat
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y mariadb-server netcat-traditional && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    chmod +x /usr/local/bin/mariadbing.sh
 
-RUN chmod +x mariadbing.sh
-
-# ENTRYPOINT ["tail", "-f"]
-ENTRYPOINT ["./mariadbing.sh"]
-
+ENTRYPOINT ["mariadbing.sh"]

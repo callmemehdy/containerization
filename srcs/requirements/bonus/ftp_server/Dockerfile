@@ -1,11 +1,12 @@
-FROM	debian:bullseye
+FROM debian:bookworm
 
-RUN		apt update  && apt upgrade -y && apt install vsftpd -y
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y vsftpd && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY	./conf/vsftpd.conf	/etc/vsftpd.conf
+COPY ./conf/vsftpd.conf /etc/vsftpd.conf
+COPY ./tools/ftping.sh /usr/local/bin/
 
-COPY	./tools/ftping.sh .
+RUN chmod +x /usr/local/bin/ftping.sh
 
-RUN		chmod +x ftping.sh
-
-ENTRYPOINT	["./ftping.sh"]
+ENTRYPOINT ["ftping.sh"]

@@ -1,23 +1,22 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
-#unshare syscall
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y curl php8.2-fpm php-mysql php redis php-redis && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY ./tools/wordpressing.sh .
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp
 
-RUN apt update && apt upgrade -y && \
-	apt install -y curl php7.4-fpm php-mysql\ 
-	mariadb-client php7.4 redis php-redis
+RUN mkdir -p /var/www/wordpress /run/php && \
+    chown -R www-data:www-data /var/www && \
+    chmod -R 775 /var/www/wordpress
 
+RUN sed -i 's#listen = /run/php/php8.2-fpm.sock#listen = 0.0.0.0:9000#' /etc/php/8.2/fpm/pool.d/www.conf
 
-RUN mkdir -p /var/www/wordpress
+WORKDIR /var/www/wordpress
 
-RUN mkdir -p /run/php
+COPY ./tools/wordpressing.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/wordpressing.sh
 
-
-RUN chmod +x wordpressing.sh
-
-RUN sed -i 's#listen = /run/php/php7.4-fpm.sock#listen = 0.0.0.0:9000#' /etc/php/7.4/fpm/pool.d/www.conf
-
-
-ENTRYPOINT ["./wordpressing.sh"]
-
+ENTRYPOINT ["wordpressing.sh"]

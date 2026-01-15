@@ -25,7 +25,8 @@ services:
     ports:
       - "443:443"
     depends_on:
-      - wordpress
+      wordpress:
+        condition: service_healthy
     volumes:
       - wordpress:/var/www/wordpress
     networks:
@@ -46,7 +47,7 @@ services:
       test: ["CMD", "nc", "-z", "mariadb", "3306"]
       interval: 2s
       timeout: 5s
-      retries: 15
+      retries: 20
   wordpress:
     image: wordpress:inception
     container_name: wordpress
@@ -56,18 +57,23 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    env_file :
+    env_file:
       - .env
     volumes:
       - wordpress:/var/www/wordpress
     networks:
       - inception
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pidof php-fpm8.2"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
   redis:
     image: redis:inception
     container_name: redis
     build: ./requirements/bonus/redis/
-    env_file :
+    env_file:
       - .env
     networks:
       - inception
@@ -76,12 +82,12 @@ services:
       test: ["CMD", "nc", "-z", "redis", "1234"]
       interval: 2s
       timeout: 5s
-      retries: 15
-  static_webp:
-    image: webp:inception
-    container_name: webp
+      retries: 20
+  ai_assistant:
+    image: ai_assistant:inception
+    container_name: ai_assistant
     build: ./requirements/bonus/static_wpage/
-    env_file :
+    env_file:
       - .env
     ports:
       - "8080:8080"
@@ -90,7 +96,7 @@ services:
     image: adminer:inception
     container_name: adminer
     build: ./requirements/bonus/adminer/
-    env_file :
+    env_file:
       - .env
     ports:
       - "9090:9090"
@@ -125,12 +131,4 @@ services:
 networks:
   inception:
     driver: bridge
-    name: inception
-
-# should add health check for wp to check if mariadb is ready & redis
-
-# ▶ cat opts.json 
-
-# {"MountType":"none","MountOpts":"bind","MountDevice":"/home/mel-akar/data/mariadb","Quota":{"Size":0}}# 
-
-# {"MountType":"none","MountOpts":"bind","MountDevice":"/home/mel-akar/data/mariadb","Quota":{"Size":0}}#    
+    name: inception    

@@ -1,10 +1,11 @@
-FROM	debian:bullseye
+FROM debian:bookworm
 
-RUN		apt update && apt upgrade -y && apt install -y build-essential
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y build-essential && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    mkdir ft_irc_protocol
 
-RUN		mkdir ft_irc_protocol
-
-COPY	./tools ft_irc_protocol/
+COPY ./tools ft_irc_protocol/
 
 WORKDIR /ft_irc_protocol
 

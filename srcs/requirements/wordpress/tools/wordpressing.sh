@@ -1,62 +1,35 @@
 #!/bin/bash
 
-# while ! mysqladmin ping -h"mariadb" -u"$MARIADB_USER" -p"$MARIADB_PASSWORD" --silent; do
-#     sleep 1
-# done
+if [ ! -f wp-config.php ]; then
+    wp core download --allow-root
 
+    wp config create \
+        --dbhost=mariadb:3306 \
+        --dbname="$MARIADB_DB" \
+        --dbuser="$MARIADB_USER" \
+        --dbpass="$MARIADB_PASSWORD" \
+        --allow-root
 
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    wp config set WP_REDIS_HOST "$REDIS_HOST" --add --allow-root
+    wp config set WP_REDIS_PORT "$REDIS_PORT" --add --allow-root
 
-# apt install -y sendmail
+    wp core install \
+        --url="$DOMAIN_NAME" \
+        --title="$WEBSITE_TITLE" \
+        --admin_user="$ADMIN_USER" \
+        --admin_password="$ADMIN_PASS" \
+        --admin_email="$ADMIN_EMAIL" \
+        --allow-root
 
-chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+    wp user create "$WP_USER" "$WP_USER_EMAIL" \
+        --role="$WP_USER_ROLE" \
+        --user_pass="$WP_USER_PASS" \
+        --allow-root
 
+    wp plugin install redis-cache --activate --allow-root
+    wp redis enable --allow-root
 
-# in case there multiuser group of www-data group
-cd /var/www/wordpress
+    chown -R www-data:www-data /var/www/wordpress
+fi
 
-# if [ -f wp-config.php ] ; then
-# 	echo "Wordpress is already installed brother!";
-	
-# fi
-
-
-chown -R www-data:www-data  /var/www
-
-chmod -R 775 /var/www/wordpress
-
-#############
-sleep 10
-
-wp core download --allow-root
-
-wp config create --dbhost=mariadb:3306 --dbname="$MARIADB_DB" --dbuser="$MARIADB_USER" --dbpass="$MARIADB_PASSWORD" --allow-root
-
-wp config set WP_REDIS_HOST $REDIS_HOST --add --allow-root
-
-wp config set WP_REDIS_PORT $REDIS_PORT --add --allow-root
-
-
-# install the plugin
-
-wp core install --url="$DOMAIN_NAME" --title="$WEBSITE_TITLE" --admin_user="$ADMIN_USER" \
-				--admin_password="$ADMIN_PASS" --admin_email="$ADMIN_EMAIL" --allow-root
-
-wp user create "$WP_USER" "$WP_USER_EMAIL" --role="$WP_USER_ROLE" --user_pass="$WP_USER_PASS" --allow-root
-
-wp plugin install redis-cache --activate --allow-root
-
-
-# install redis
-chown -R www-data:www-data  /var/www
-wp redis enable --allow-root
-
-
-
-chmod -R 775 /var/www/wordpress
-
-
-wp db check --allow-root
-
-
-/usr/sbin/php-fpm7.4 -F
+exec /usr/sbin/php-fpm8.2 -F
